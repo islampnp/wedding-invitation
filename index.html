@@ -75,6 +75,9 @@
   @media (prefers-reduced-motion:reduce){
     .reveal{animation:none;opacity:1;transform:none}
     .petal-field{display:none}
+    .intro{display:none}
+    .groom{animation:none}
+    .emblem svg{animation:none}
   }
 
   /* ── falling petals (decorative, halal) ───── */
@@ -99,9 +102,44 @@
     to{transform:translateX(15px) rotate(38deg)}
   }
 
+  /* ── envelope intro ───────────────────────── */
+  .intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(700px 500px at 50% 45%,#f8f3e5 0%,#ece1c8 100%);
+    pointer-events:none;animation:introOut .8s ease 2.7s forwards}
+  .envelope{position:relative;width:min(320px,80vw);aspect-ratio:8/5;perspective:900px}
+  .env-back{position:absolute;inset:0;border-radius:10px;
+    background:linear-gradient(180deg,#f1e7d0,#e6d7b4);border:1px solid var(--gold-line);
+    box-shadow:0 24px 50px -24px rgba(64,52,20,.45)}
+  .env-card{position:absolute;inset:16px 26px;border-radius:6px;z-index:1;
+    background:linear-gradient(180deg,#fdfbf5,#fbf7ec);border:1px solid var(--gold-line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Aref Ruqaa',serif;font-weight:700;font-size:1.7rem;color:var(--gold-800);
+    animation:cardRise 1.5s cubic-bezier(.22,.7,.3,1) 1.25s forwards}
+  .env-flap{position:absolute;left:0;right:0;top:0;height:62%;z-index:2;
+    background:linear-gradient(180deg,#eee1c2,#e2d0a6);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    border-radius:10px 10px 0 0;
+    transform-origin:top center;
+    animation:flapOpen .8s cubic-bezier(.6,.05,.3,1) .45s forwards, flapFade .35s ease 1.15s forwards}
+  .env-seal{position:absolute;left:50%;top:62%;z-index:3;width:46px;height:46px;
+    transform:translate(-50%,-50%);border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#d9bf85,#ab8840 62%,#8f6f28);
+    box-shadow:0 3px 8px rgba(64,52,20,.35);
+    display:flex;align-items:center;justify-content:center;
+    color:#f8f0da;font-size:1.05rem;
+    animation:sealFade .3s ease .5s forwards}
+  .env-seal::after{content:"✦"}
+  @keyframes introOut{to{opacity:0;visibility:hidden}}
+  @keyframes cardRise{to{transform:translateY(-118%) scale(1.06)}}
+  @keyframes flapOpen{to{transform:rotateX(178deg)}}
+  @keyframes flapFade{to{opacity:0}}
+  @keyframes sealFade{to{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
+  body.pre .reveal{animation-play-state:paused}
+
   /* ── emblem ───────────────────────────────── */
   .emblem{width:64px;height:64px;margin:0 auto 14px;color:var(--gold-600)}
-  .emblem svg{width:100%;height:100%;display:block}
+  .emblem svg{width:100%;height:100%;display:block;animation:spin 70s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
 
   /* ── basmala ──────────────────────────────── */
   .basmala{
@@ -149,6 +187,11 @@
     font-size:clamp(3rem,13vw,4.2rem);
     line-height:1.45;color:var(--teal-900);
     text-shadow:0 1px 0 rgba(255,255,255,.6);
+    animation:glow 4.5s ease-in-out 4s infinite;
+  }
+  @keyframes glow{
+    0%,100%{text-shadow:0 1px 0 rgba(255,255,255,.6)}
+    50%{text-shadow:0 1px 0 rgba(255,255,255,.6),0 0 18px rgba(201,172,109,.5)}
   }
   .flourish{width:180px;height:26px;margin:6px auto 0;color:var(--gold-600)}
   .flourish svg{width:100%;height:100%;display:block}
@@ -249,11 +292,22 @@
     .card{width:139mm;min-height:210mm;margin:0 auto;border-radius:0;
       box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact}
     .actions{display:none}
+    .intro{display:none}
     .reveal{opacity:1;transform:none;animation:none}
   }
 </style>
 </head>
 <body>
+
+  <!-- envelope intro -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="envelope">
+      <div class="env-back"></div>
+      <div class="env-card">دعوة زفاف</div>
+      <div class="env-flap"></div>
+      <div class="env-seal"></div>
+    </div>
+  </div>
 
 <main class="card" role="main" aria-label="دعوة زفاف عبد السلام">
 
@@ -459,6 +513,16 @@
     icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — حفل الرجال");
   document.getElementById("ics-women").href =
     icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — حفل النساء");
+
+  // envelope intro: hold the card entrance until the envelope finishes
+  const intro = document.getElementById("intro");
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    intro.remove();
+  } else {
+    document.body.classList.add("pre");
+    setTimeout(() => document.body.classList.remove("pre"), 2900);
+    setTimeout(() => intro.remove(), 3600);
+  }
 </script>
 </body>
 </html>
