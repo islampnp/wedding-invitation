@@ -128,7 +128,11 @@
   @keyframes neq{0%,100%{height:3px}50%{height:11px}}
   .nasheed.playing .n-bars{display:inline-flex}
   .nasheed.playing svg.n-icon{display:none}
-  .yt-holder{position:fixed;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+  .nasheed-embed{margin:24px auto 0;max-width:320px}
+  .ne-title{font-size:.82rem;font-weight:700;opacity:.85;margin-bottom:8px}
+  .ne-frame{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+    box-shadow:0 0 0 1px currentColor, 0 10px 24px -14px rgba(0,0,0,.4)}
+  .ne-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 </head>
 <body>
@@ -222,6 +226,11 @@
     <span class="v-bars" aria-hidden="true"><i></i><i></i><i></i></span>
     <span class="v-label">استمع إلى الدعاء</span>
   </button>
+    <section class="nasheed-embed reveal d7" aria-label="نشيد الزفاف">
+    <div class="ne-title">✦ نشيد الزفاف — بارك الله لكما ✦</div>
+    <div class="ne-frame"><div id="yt-player"></div></div>
+  </section>
+
   <nav class="actions reveal d7" aria-label="روابط عملية">
     <a href="#" id="ics-men" download="hfla-rijal.ics">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3 v4 M16 3 v4 M3 10 h18"/></svg>
@@ -333,7 +342,7 @@
     window.onYouTubeIframeAPIReady = function(){
       player = new YT.Player("yt-player", {
         videoId: VIDEO_ID,
-        playerVars: {autoplay: 1, playsinline: 1, controls: 0, mute: 1},
+        playerVars: {autoplay: 1, playsinline: 1, controls: 1, mute: 1, rel: 0},
         events: {
           onReady: function(e){
             e.target.setVolume(70);
@@ -360,12 +369,28 @@
       if(btn.classList.contains("playing")){ player.pauseVideo(); }
       else { ensureSound(); }
     });
+    function fallbackEmbed(){
+      var holder = document.getElementById("yt-player");
+      if(!holder || holder.tagName === "IFRAME") return;
+      holder.outerHTML =
+        '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID +
+        '?autoplay=0&playsinline=1&controls=1&rel=0" title="نشيد الزفاف" ' +
+        'style="position:absolute;inset:0;width:100%;height:100%;border:0" ' +
+        'allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+      btn.style.display = "none";
+    }
+    var guarded = false;
     function loadApi(){
+      if(guarded) return;
+      guarded = true;
       var t = document.createElement("script");
       t.src = "https://www.youtube.com/iframe_api";
+      t.onload = function(){
+        setTimeout(function(){ if(!player) fallbackEmbed(); }, 6000);
+      };
       t.onerror = function(){
-        if(apiTries++ < 1){ setTimeout(loadApi, 2500); }
-        else { label.textContent = "الأناشيد غير متاحة هنا"; }
+        if(apiTries++ < 1){ guarded = false; setTimeout(loadApi, 2500); }
+        else { fallbackEmbed(); }
       };
       document.head.appendChild(t);
     }
@@ -378,6 +403,6 @@
   <span class="n-bars" aria-hidden="true"><i></i><i></i><i></i></span>
   <span id="nasheed-label">أناشيد الزفاف</span>
 </button>
-<div class="yt-holder" aria-hidden="true"><div id="yt-player"></div></div>
+
 </body>
 </html>
