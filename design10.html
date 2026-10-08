@@ -132,6 +132,7 @@
   .dua-mute .ic-off{display:none}
   .dua-mute.muted .ic-on{display:none}
   .dua-mute.muted .ic-off{display:block}
+  #yt-bg{position:fixed;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
   @media print{.dua-overlay,.dua-mute{display:none}}
 </style>
 </head>
@@ -218,56 +219,109 @@
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(lines.join("\r\n"));
   }
   document.getElementById("ics-men").href = icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
-  document.getElementById("ics-women").href = icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — وليمة عشاء النساء");
-
-
-
-  // background dua recitation (voice only, no music)
+  document.getElementById("ics-women").href =  // background recitation: audio only, streamed invisibly from YouTube
   (function(){
-    var audio = document.getElementById("dua");
-    var overlay = document.getElementById("dua-overlay");
-    var muteBtn = document.getElementById("dua-mute");
-    var events = ["click", "touchstart", "touchend", "scroll", "keydown"];
-    function cleanup(){
-      events.forEach(function(ev){ document.removeEventListener(ev, onFirst); });
-    }
-    function hideOverlay(){
-      if(!overlay) return;
-      overlay.classList.add("hidden");
-      setTimeout(function(){
-        if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, 700);
-    }
-    function updateBtn(){
-      muteBtn.setAttribute("aria-pressed", audio.muted ? "true" : "false");
-      muteBtn.classList.toggle("muted", audio.muted);
-      muteBtn.setAttribute("aria-label", audio.muted ? "تشغيل الصوت" : "كتم الصوت");
-    }
-    function tryPlay(){
-      var p = audio.play();
-      if(p && p.then){ p.catch(function(){}); }
-    }
-    function onFirst(){ tryPlay(); }
-    audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); });
-    audio.addEventListener("error", function(){
-      cleanup(); hideOverlay();
-      if(muteBtn.parentNode) muteBtn.parentNode.removeChild(muteBtn);
-    });
-    events.forEach(function(ev){
-      document.addEventListener(ev, onFirst, {passive:true});
-    });
-    var p0 = audio.play();
-    if(p0 && p0.then){
-      p0.then(function(){ cleanup(); }).catch(function(){
-        if(overlay) overlay.classList.remove("hidden");
+    var VIDEO_ID = "qxjRGJezZkQ";
+    function init(){
+      var overlay = document.getElementById("dua-overlay");
+      var muteBtn = document.getElementById("dua-mute");
+      var player = null, ready = false, started = false;
+      var events = ["click", "touchstart", "touchend", "scroll", "keydown"];
+      function cleanup(){
+        events.forEach(function(ev){ document.removeEventListener(ev, onFirst); });
+      }
+      function hideOverlay(){
+        if(!overlay) return;
+        overlay.classList.add("hidden");
+        setTimeout(function(){
+          if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        }, 700);
+      }
+      function updateBtn(muted){
+        muteBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+        muteBtn.classList.toggle("muted", muted);
+        muteBtn.setAttribute("aria-label", muted ? "تشغيل الصوت" : "كتم الصوت");
+      }
+      function ensureSound(){
+        if(!player || !ready) return;
+        player.unMute();
+        player.setVolume(70);
+        player.playVideo();
+      }
+      function onFirst(ev){
+        if(ev && ev.target && ev.target.closest && ev.target.closest("#dua-mute")) return;
+        ensureSound();
+      }
+      window.onYouTubeIframeAPIReady = function(){
+        player = new YT.Player("yt-bg", {
+          videoId: VIDEO_ID,
+          playerVars: {autoplay: 1, playsinline: 1, controls: 0, mute: 1, rel: 0},
+          events: {
+            onReady: function(e){
+              ready = true;
+              e.target.setVolume(70);
+              e.target.mute();
+              e.target.playVideo();
+            },
+            onStateChange: function(e){
+              if(e.data === YT.PlayerState.PLAYING){
+                if(!player.isMuted()){
+                  started = true;
+                  cleanup();
+                  hideOverlay();
+                  updateBtn(false);
+                }
+              } else if(e.data === YT.PlayerState.ENDED){
+                e.target.seekTo(0);
+                e.target.playVideo();
+              }
+            },
+            onError: function(){
+              cleanup(); hideOverlay();
+              if(muteBtn.parentNode) muteBtn.parentNode.removeChild(muteBtn);
+            }
+          }
+        });
+      };
+      events.forEach(function(ev){
+        document.addEventListener(ev, onFirst, {passive:true});
       });
+      setTimeout(function(){
+        if(!started && overlay) overlay.classList.remove("hidden");
+      }, 1800);
+      if(overlay){
+        overlay.addEventListener("click", function(ev){
+          ev.stopPropagation();
+          ensureSound();
+          hideOverlay();
+        });
+      }
+      muteBtn.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        if(!player || !ready) return;
+        if(player.isMuted()){
+          player.unMute(); player.setVolume(70);
+          if(player.getPlayerState() !== 1) player.playVideo();
+          updateBtn(false);
+        } else {
+          player.mute();
+          updateBtn(true);
+        }
+      });
+      updateBtn(true);
+      var t = document.createElement("script");
+      t.src = "https://www.youtube.com/iframe_api";
+      t.onerror = function(){
+        cleanup(); hideOverlay();
+        if(muteBtn.parentNode) muteBtn.parentNode.removeChild(muteBtn);
+      };
+      document.head.appendChild(t);
     }
-    if(overlay){
-      overlay.addEventListener("click", function(){ tryPlay(); hideOverlay(); });
-    }
-    muteBtn.addEventListener("click", function(ev){
-      ev.stopPropagation();
-      audio.muted = !audio.muted;
+    if(document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", init);
+    } else { init(); }
+  })();
+d;
       if(!audio.muted){ tryPlay(); }
       updateBtn();
     });
@@ -288,6 +342,6 @@
   <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M15.5 8.5 a5 5 0 0 1 0 7"/><path d="M18.5 5.5 a9.5 9.5 0 0 1 0 13"/></svg>
   <svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M16 9 l6 6 M22 9 l-6 6"/></svg>
 </button>
-<audio id="dua" src="dua.mp3" preload="auto" loop></audio>
+<div id="yt-bg" aria-hidden="true"></div>
 </body>
 </html>
