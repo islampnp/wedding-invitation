@@ -157,7 +157,7 @@
   /* ── events ───────────────────────────────── */
   .events{
     display:grid;grid-template-columns:1fr 1fr;gap:14px;
-    margin:30px 0 26px;
+    margin:30px 0 18px;
   }
   .event{
     background:linear-gradient(180deg,#fbf7ea,#f7f1e0);
@@ -192,6 +192,15 @@
     font-size:.9rem;color:var(--teal-700);font-weight:600;
   }
   .event .row svg{width:14px;height:14px;color:var(--gold-800);flex:none}
+
+  /* ── location ─────────────────────────────── */
+  .location{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    margin:0 0 26px;
+  }
+  .location svg{width:20px;height:20px;color:var(--gold-800);flex:none}
+  .location .loc-label{font-weight:700;font-size:.98rem;color:var(--gold-800)}
+  .location .loc-address{font-weight:700;font-size:1.08rem;color:var(--teal-900)}
 
   /* ── closing ──────────────────────────────── */
   .await{font-size:1.02rem;color:var(--teal-700);font-weight:600;margin-bottom:22px}
@@ -390,12 +399,6 @@
         </div>
         <div class="day">الأربعاء</div>
         <div class="date">18 نوفمبر 2026</div>
-        <div class="meta">
-          <div class="row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21 C 12 21, 5 14.5, 5 9.5 A 7 7 0 0 1 19 9.5 C 19 14.5, 12 21, 12 21 Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-            عين عبيد، عين الذهب، تيارت
-          </div>
-        </div>
       </article>
 
       <article class="event">
@@ -405,13 +408,14 @@
         </div>
         <div class="day">الخميس</div>
         <div class="date">19 نوفمبر 2026</div>
-        <div class="meta">
-          <div class="row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21 C 12 21, 5 14.5, 5 9.5 A 7 7 0 0 1 19 9.5 C 19 14.5, 12 21, 12 21 Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-            عين عبيد، عين الذهب، تيارت
-          </div>
-        </div>
       </article>
+    </section>
+
+    <!-- location -->
+    <section class="location reveal d6" aria-label="موقع الحفل">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21 C 12 21, 5 14.5, 5 9.5 A 7 7 0 0 1 19 9.5 C 19 14.5, 12 21, 12 21 Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <span class="loc-label">الموقع:</span>
+      <span class="loc-address">عين عبيد، عين الذهب، تيارت</span>
     </section>
 
     <!-- closing -->
