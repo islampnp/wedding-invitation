@@ -643,10 +643,11 @@
   })();
 
   // wedding nasheed: Maher Zain - Baraka Allahu Lakuma (vocals only)
-  (function(){
+  function __initNasheed(){
     var VIDEO_ID = "l5Bxgo-uBAY";
     var btn = document.getElementById("nasheed-btn");
     var label = document.getElementById("nasheed-label");
+    if(!btn || !label) return;
     var player = null, started = false, apiTries = 0;
     function ui(p){
       btn.classList.toggle("playing", p);
@@ -726,7 +727,10 @@
       document.head.appendChild(t);
     }
     loadApi();
-  })();
+  }
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", __initNasheed);
+  } else { __initNasheed(); }
 </script>
 <a class="switcher" href="models.html" style="position:fixed;bottom:14px;inset-inline-start:14px;z-index:60;font-family:'Cairo',sans-serif;font-size:.8rem;font-weight:600;padding:7px 14px;border-radius:999px;text-decoration:none;background:rgba(21,63,60,.85);color:#f2ecdc">كل النماذج ✦</a>
 
