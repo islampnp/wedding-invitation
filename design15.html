@@ -303,30 +303,43 @@
     var VIDEO_ID = "l5Bxgo-uBAY";
     var btn = document.getElementById("nasheed-btn");
     var label = document.getElementById("nasheed-label");
-    var player = null, started = false;
+    var player = null, started = false, apiTries = 0;
     function ui(p){
       btn.classList.toggle("playing", p);
       label.textContent = p ? "إيقاف الأناشيد" : "أناشيد الزفاف";
     }
-    function tapStarter(ev){
-      if(started || !player) return;
-      if(ev && ev.target && ev.target.closest && ev.target.closest("#nasheed-btn")) return;
-      player.playVideo();
+    function ensureSound(){
+      if(!player) return;
+      player.unMute();
+      player.setVolume(70);
+      if(!started) player.playVideo();
     }
-    document.addEventListener("pointerdown", tapStarter);
-    document.addEventListener("keydown", tapStarter);
+    function onGesture(ev){
+      if(ev && ev.target && ev.target.closest && ev.target.closest("#nasheed-btn")) return;
+      ensureSound();
+      document.removeEventListener("pointerdown", onGesture);
+      document.removeEventListener("touchstart", onGesture);
+      document.removeEventListener("click", onGesture);
+      document.removeEventListener("keydown", onGesture);
+    }
+    document.addEventListener("pointerdown", onGesture);
+    document.addEventListener("touchstart", onGesture, {passive:true});
+    document.addEventListener("click", onGesture);
+    document.addEventListener("keydown", onGesture);
     window.onYouTubeIframeAPIReady = function(){
       player = new YT.Player("yt-player", {
         videoId: VIDEO_ID,
-        playerVars: {autoplay: 1, playsinline: 1, controls: 0},
+        playerVars: {autoplay: 1, playsinline: 1, controls: 0, mute: 1},
         events: {
-          onReady: function(e){ e.target.setVolume(70); e.target.playVideo(); },
+          onReady: function(e){
+            e.target.setVolume(70);
+            e.target.mute();
+            e.target.playVideo();
+          },
           onStateChange: function(e){
             if(e.data === YT.PlayerState.PLAYING){
               started = true;
               ui(true);
-              document.removeEventListener("pointerdown", tapStarter);
-              document.removeEventListener("keydown", tapStarter);
             } else if(e.data === YT.PlayerState.ENDED){
               e.target.seekTo(0);
               e.target.playVideo();
@@ -339,13 +352,20 @@
       });
     };
     btn.addEventListener("click", function(){
-      if(!player) return;
+      if(!player){ label.textContent = "الأناشيد غير متاحة هنا"; return; }
       if(btn.classList.contains("playing")){ player.pauseVideo(); }
-      else { player.playVideo(); }
+      else { ensureSound(); }
     });
-    var t = document.createElement("script");
-    t.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(t);
+    function loadApi(){
+      var t = document.createElement("script");
+      t.src = "https://www.youtube.com/iframe_api";
+      t.onerror = function(){
+        if(apiTries++ < 1){ setTimeout(loadApi, 2500); }
+        else { label.textContent = "الأناشيد غير متاحة هنا"; }
+      };
+      document.head.appendChild(t);
+    }
+    loadApi();
   })();
 </script>
 
