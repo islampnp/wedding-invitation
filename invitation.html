@@ -252,12 +252,22 @@
   .dua{
     border:1.4px solid var(--gold-line);
     border-radius:12px;
-    padding:16px 20px;
-    background:linear-gradient(180deg,rgba(201,172,109,.12),rgba(201,172,109,.05));
-    font-family:'Amiri',serif;font-weight:700;
-    font-size:clamp(1.06rem,4.2vw,1.22rem);
-    line-height:1.9;color:var(--gold-800);
+    padding:18px 20px 14px;
+    background:
+      radial-gradient(140px 44px at 50% 0%, rgba(201,172,109,.16), transparent),
+      linear-gradient(180deg,rgba(201,172,109,.1),rgba(201,172,109,.04));
     position:relative;
+  }
+  .dua .dua-text{
+    display:block;
+    font-family:'Amiri',serif;font-weight:700;
+    font-size:clamp(1.08rem,4.4vw,1.26rem);
+    line-height:1.9;color:var(--gold-800);
+  }
+  .dua .dua-src{
+    display:block;margin-top:6px;
+    font-weight:600;font-size:.74rem;
+    color:var(--muted);letter-spacing:.04em;
   }
   .dua::before,.dua::after{
     content:"◆";position:absolute;top:-8px;font-size:9px;color:var(--gold-600);
@@ -476,7 +486,10 @@
     <p class="await reveal d6">بانتظار حضوركم الكريم</p>
 
     <!-- dua -->
-    <div class="dua reveal d7">بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير</div>
+    <div class="dua reveal d7">
+      <span class="dua-text">«بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير»</span>
+      <span class="dua-src">دعاء النبي ﷺ للعروسين</span>
+    </div>
 
     <!-- digital actions (hidden in print) -->
     <nav class="actions reveal d8" aria-label="روابط عملية">
