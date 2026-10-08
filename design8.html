@@ -197,7 +197,7 @@
     function init(){
       var overlay = document.getElementById("dua-overlay");
       var muteBtn = document.getElementById("dua-mute");
-      var player = null, ready = false, started = false;
+      var player = null, ready = false, started = false, soundWanted = false;
       var events = ["click", "touchstart", "touchend", "scroll", "keydown"];
       function cleanup(){
         events.forEach(function(ev){ document.removeEventListener(ev, onFirst); });
@@ -215,6 +215,7 @@
         muteBtn.setAttribute("aria-label", muted ? "تشغيل الصوت" : "كتم الصوت");
       }
       function ensureSound(){
+        soundWanted = true;
         if(!player || !ready) return;
         player.unMute();
         player.setVolume(70);
@@ -234,6 +235,11 @@
               e.target.setVolume(70);
               e.target.mute();
               e.target.playVideo();
+              if(soundWanted){
+                e.target.unMute();
+                e.target.setVolume(70);
+                e.target.playVideo();
+              }
             },
             onStateChange: function(e){
               if(e.data === YT.PlayerState.PLAYING){
@@ -281,13 +287,23 @@
         }
       });
       updateBtn(true);
-      var t = document.createElement("script");
-      t.src = "https://www.youtube.com/iframe_api";
-      t.onerror = function(){
+      var tries = 0;
+      function giveUp(){
         cleanup(); hideOverlay();
         if(muteBtn.parentNode) muteBtn.parentNode.removeChild(muteBtn);
-      };
-      document.head.appendChild(t);
+      }
+      function loadApi(){
+        var t = document.createElement("script");
+        t.src = "https://www.youtube.com/iframe_api" + (tries ? "?r=" + tries : "");
+        t.onerror = giveUp;
+        document.head.appendChild(t);
+        setTimeout(function(){
+          if(typeof YT === "undefined"){
+            if(tries++ < 2){ loadApi(); } else { giveUp(); }
+          }
+        }, 6000);
+      }
+      loadApi();
     }
     if(document.readyState === "loading"){
       document.addEventListener("DOMContentLoaded", init);
