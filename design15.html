@@ -117,42 +117,29 @@
     .reveal{opacity:1;transform:none;animation:none}
   }
 
-  /* ── voice dua ────────────────────────────── */
-  .dua-voice{display:flex;align-items:center;gap:9px;margin:16px auto 0;cursor:pointer;
-    font:inherit;font-size:.86rem;font-weight:700;border:1.4px solid currentColor;
-    border-radius:999px;padding:9px 18px;background:transparent;color:inherit;
-    opacity:.85;transition:opacity .2s ease}
-  .dua-voice:hover{opacity:1}
-  .dua-voice svg{width:15px;height:15px;flex:none}
-  .dua-voice .v-bars{display:none;gap:2.5px;align-items:flex-end;height:12px}
-  .dua-voice .v-bars i{width:2.5px;background:currentColor;border-radius:2px;
-    animation:eq .9s ease-in-out infinite}
-  .dua-voice .v-bars i:nth-child(2){animation-delay:.22s}
-  .dua-voice .v-bars i:nth-child(3){animation-delay:.45s}
-  @keyframes eq{0%,100%{height:4px}50%{height:12px}}
-  .dua-voice.playing .v-bars{display:inline-flex}
-  .dua-voice.playing svg.v-icon{display:none}
 
-  /* ── nasheed player ───────────────────────── */
-  .nasheed{position:fixed;bottom:14px;inset-inline-end:14px;z-index:60;display:inline-flex;
-    align-items:center;gap:8px;font:inherit;font-size:.8rem;font-weight:600;
-    padding:8px 15px;border-radius:999px;cursor:pointer;
-    background:rgba(22,20,16,.72);color:#fdf9ee;backdrop-filter:blur(4px);
-    border:1px solid rgba(255,255,255,.3)}
-  .nasheed svg{width:14px;height:14px;flex:none}
-  .nasheed .n-bars{display:none;gap:2.5px;align-items:flex-end;height:11px}
-  .nasheed .n-bars i{width:2.5px;background:currentColor;border-radius:2px;
-    animation:neq .9s ease-in-out infinite}
-  .nasheed .n-bars i:nth-child(2){animation-delay:.22s}
-  .nasheed .n-bars i:nth-child(3){animation-delay:.45s}
-  @keyframes neq{0%,100%{height:3px}50%{height:11px}}
-  .nasheed.playing .n-bars{display:inline-flex}
-  .nasheed.playing svg.n-icon{display:none}
-  .nasheed-embed{margin:24px auto 0;max-width:320px}
-  .ne-title{font-size:.82rem;font-weight:700;opacity:.85;margin-bottom:8px}
-  .ne-frame{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
-    box-shadow:0 0 0 1px currentColor, 0 10px 24px -14px rgba(0,0,0,.4)}
-  .ne-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ── dua audio & opening overlay ──────────── */
+  .dua-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    background:rgba(26,21,12,.82);backdrop-filter:blur(6px);
+    transition:opacity .6s ease,visibility .6s ease}
+  .dua-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+  .dua-overlay-inner{text-align:center;padding:24px}
+  .dua-overlay-inner .orn{color:#d9bf85;font-size:1.6rem;margin-bottom:14px}
+  .dua-open{font:inherit;font-size:1.15rem;font-weight:800;color:#fffdf2;cursor:pointer;
+    background:linear-gradient(180deg,#c9a259,#a8843f);border:1px solid #e3cf9d;
+    border-radius:999px;padding:16px 46px;box-shadow:0 14px 34px -12px rgba(0,0,0,.6)}
+  .dua-open:hover{filter:brightness(1.06)}
+  .dua-hint{margin-top:14px;font-size:.85rem;color:#e8ddc2}
+  .dua-mute{position:fixed;top:14px;inset-inline-end:14px;z-index:90;width:44px;height:44px;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    background:rgba(22,20,16,.72);color:#f5efdf;border:1px solid rgba(255,255,255,.3);
+    backdrop-filter:blur(4px)}
+  .dua-mute svg{width:19px;height:19px}
+  .dua-mute .ic-off{display:none}
+  .dua-mute.muted .ic-on{display:none}
+  .dua-mute.muted .ic-off{display:block}
+  @media print{.dua-overlay,.dua-mute{display:none}}
 </style>
 </head>
 <body>
@@ -220,16 +207,6 @@
       <span class="dua-src">دعاء النبي ﷺ للعروسين</span>
     </div>
 
-      <button class="dua-voice" id="dua-voice" type="button" aria-label="تشغيل الدعاء صوتيًا">
-    <svg class="v-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M15.5 8.5 a5 5 0 0 1 0 7"/><path d="M18.5 5.5 a9.5 9.5 0 0 1 0 13"/></svg>
-    <span class="v-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-    <span class="v-label">استمع إلى الدعاء</span>
-  </button>
-    <section class="nasheed-embed reveal d7" aria-label="نشيد الزفاف">
-    <div class="ne-title">✦ نشيد الزفاف — بارك الله لكما ✦</div>
-    <div class="ne-frame"><div id="yt-player"></div></div>
-  </section>
-
   <nav class="actions reveal d7" aria-label="روابط عملية">
       <a href="#" id="ics-men" download="hfla-rijal.ics">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3 v4 M16 3 v4 M3 10 h18"/></svg>
@@ -256,153 +233,74 @@
   document.getElementById("ics-men").href = icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
   document.getElementById("ics-women").href = icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — وليمة عشاء النساء");
 
-  // voice dua: play a personal recording if present, otherwise read the dua aloud
-  (function(){
-    var btn = document.getElementById("dua-voice");
-    if(!btn) return;
-    var audio = null, playing = false;
-    var TEXT = "بارك الله لكما وبارك عليكما وجمع بينكما في خير";
-    var label = btn.querySelector(".v-label");
-    function stop(){
-      playing = false;
-      if(audio){ audio.pause(); audio = null; }
-      if(window.speechSynthesis) speechSynthesis.cancel();
-      btn.classList.remove("playing");
-      label.textContent = "استمع إلى الدعاء";
-    }
-    function mark(){
-      playing = true;
-      btn.classList.add("playing");
-      label.textContent = "إيقاف الصوت";
-    }
-    function unavailable(){
-      label.textContent = "الصوت غير متاح على هذا الجهاز";
-      setTimeout(function(){ label.textContent = "استمع إلى الدعاء"; }, 2500);
-    }
-    function speak(){
-      if(!("speechSynthesis" in window)){ unavailable(); return; }
-      var u = new SpeechSynthesisUtterance(TEXT);
-      u.lang = "ar"; u.rate = .85;
-      var v = speechSynthesis.getVoices().filter(function(x){
-        return x.lang && x.lang.indexOf("ar") === 0; })[0];
-      if(v) u.voice = v;
-      u.onend = stop;
-      u.onerror = stop;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(u);
-      mark();
-    }
-    btn.addEventListener("click", function(){
-      if(playing){ stop(); return; }
-      if(window.fetch){
-        fetch("assets/dua.mp3", {method:"HEAD"}).then(function(r){
-          if(r.ok){
-            audio = new Audio("assets/dua.mp3");
-            audio.onended = stop;
-            audio.onerror = speak;
-            audio.play().then(mark).catch(speak);
-          } else { speak(); }
-        }).catch(speak);
-      } else { speak(); }
-    });
-  })();
 
-  // wedding nasheed: Maher Zain - Baraka Allahu Lakuma (vocals only)
-  function __initNasheed(){
-    var VIDEO_ID = "l5Bxgo-uBAY";
-    var btn = document.getElementById("nasheed-btn");
-    var label = document.getElementById("nasheed-label");
-    if(!btn || !label) return;
-    var player = null, started = false, apiTries = 0;
-    function ui(p){
-      btn.classList.toggle("playing", p);
-      label.textContent = p ? "إيقاف الأناشيد" : "أناشيد الزفاف";
+
+  // background dua recitation (voice only, no music)
+  (function(){
+    var audio = document.getElementById("dua");
+    var overlay = document.getElementById("dua-overlay");
+    var muteBtn = document.getElementById("dua-mute");
+    var events = ["click", "touchstart", "touchend", "scroll", "keydown"];
+    function cleanup(){
+      events.forEach(function(ev){ document.removeEventListener(ev, onFirst); });
     }
-    function ensureSound(){
-      if(!player) return;
-      player.unMute();
-      player.setVolume(70);
-      if(!started) player.playVideo();
+    function hideOverlay(){
+      if(!overlay) return;
+      overlay.classList.add("hidden");
+      setTimeout(function(){
+        if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 700);
     }
-    function onGesture(ev){
-      if(ev && ev.target && ev.target.closest && ev.target.closest("#nasheed-btn")) return;
-      ensureSound();
-      document.removeEventListener("pointerdown", onGesture);
-      document.removeEventListener("touchstart", onGesture);
-      document.removeEventListener("click", onGesture);
-      document.removeEventListener("keydown", onGesture);
+    function updateBtn(){
+      muteBtn.setAttribute("aria-pressed", audio.muted ? "true" : "false");
+      muteBtn.classList.toggle("muted", audio.muted);
+      muteBtn.setAttribute("aria-label", audio.muted ? "تشغيل الصوت" : "كتم الصوت");
     }
-    document.addEventListener("pointerdown", onGesture);
-    document.addEventListener("touchstart", onGesture, {passive:true});
-    document.addEventListener("click", onGesture);
-    document.addEventListener("keydown", onGesture);
-    window.onYouTubeIframeAPIReady = function(){
-      player = new YT.Player("yt-player", {
-        videoId: VIDEO_ID,
-        playerVars: {autoplay: 1, playsinline: 1, controls: 1, mute: 1, rel: 0},
-        events: {
-          onReady: function(e){ window.nasheedPlayer = player;
-            e.target.setVolume(70);
-            e.target.mute();
-            e.target.playVideo();
-          },
-          onStateChange: function(e){
-            if(e.data === YT.PlayerState.PLAYING){
-              started = true;
-              ui(true);
-            } else if(e.data === YT.PlayerState.ENDED){
-              e.target.seekTo(0);
-              e.target.playVideo();
-            } else {
-              ui(false);
-            }
-          },
-          onError: function(){ btn.style.display = "none"; }
-        }
-      });
-    };
-    btn.addEventListener("click", function(){
-      if(!player){ label.textContent = "الأناشيد غير متاحة هنا"; return; }
-      if(btn.classList.contains("playing")){ player.pauseVideo(); }
-      else { ensureSound(); }
+    function tryPlay(){
+      var p = audio.play();
+      if(p && p.then){ p.catch(function(){}); }
+    }
+    function onFirst(){ tryPlay(); }
+    audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); });
+    audio.addEventListener("error", function(){
+      cleanup(); hideOverlay();
+      if(muteBtn.parentNode) muteBtn.parentNode.removeChild(muteBtn);
     });
-    function fallbackEmbed(){
-      var holder = document.getElementById("yt-player");
-      if(!holder || holder.tagName === "IFRAME") return;
-      holder.outerHTML =
-        '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID +
-        '?autoplay=0&playsinline=1&controls=1&rel=0" title="نشيد الزفاف" ' +
-        'style="position:absolute;inset:0;width:100%;height:100%;border:0" ' +
-        'allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-      btn.style.display = "none";
+    events.forEach(function(ev){
+      document.addEventListener(ev, onFirst, {passive:true});
+    });
+    var p0 = audio.play();
+    if(p0 && p0.then){
+      p0.then(function(){ cleanup(); }).catch(function(){
+        if(overlay) overlay.classList.remove("hidden");
+      });
     }
-    var guarded = false;
-    function loadApi(){
-      if(guarded) return;
-      guarded = true;
-      var t = document.createElement("script");
-      t.src = "https://www.youtube.com/iframe_api";
-      t.onload = function(){
-        setTimeout(function(){ if(!player) fallbackEmbed(); }, 6000);
-      };
-      t.onerror = function(){
-        if(apiTries++ < 1){ guarded = false; setTimeout(loadApi, 2500); }
-        else { fallbackEmbed(); }
-      };
-      document.head.appendChild(t);
+    if(overlay){
+      overlay.addEventListener("click", function(){ tryPlay(); hideOverlay(); });
     }
-    loadApi();
-  }
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", __initNasheed);
-  } else { __initNasheed(); }
+    muteBtn.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      audio.muted = !audio.muted;
+      if(!audio.muted){ tryPlay(); }
+      updateBtn();
+    });
+    updateBtn();
+  })();
 </script>
 
-<button class="nasheed" id="nasheed-btn" type="button" aria-label="تشغيل نشيد الزفاف">
-  <svg class="n-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18 V5 l12 -2 v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-  <span class="n-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-  <span id="nasheed-label">أناشيد الزفاف</span>
-</button>
 
+
+<div class="dua-overlay hidden" id="dua-overlay" role="dialog" aria-modal="true" aria-label="فتح الدعوة">
+  <div class="dua-overlay-inner">
+    <div class="orn" aria-hidden="true">✦</div>
+    <button class="dua-open" type="button">افتح الدعوة</button>
+    <p class="dua-hint">مع تلاوة دعاء العروسين — بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير</p>
+  </div>
+</div>
+<button class="dua-mute" id="dua-mute" type="button" aria-label="كتم الصوت" aria-pressed="false">
+  <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M15.5 8.5 a5 5 0 0 1 0 7"/><path d="M18.5 5.5 a9.5 9.5 0 0 1 0 13"/></svg>
+  <svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M16 9 l6 6 M22 9 l-6 6"/></svg>
+</button>
+<audio id="dua" src="dua.mp3" preload="auto" loop></audio>
 </body>
 </html>
