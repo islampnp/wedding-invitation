@@ -344,7 +344,7 @@
         videoId: VIDEO_ID,
         playerVars: {autoplay: 1, playsinline: 1, controls: 1, mute: 1, rel: 0},
         events: {
-          onReady: function(e){
+          onReady: function(e){ window.nasheedPlayer = player;
             e.target.setVolume(70);
             e.target.mute();
             e.target.playVideo();
