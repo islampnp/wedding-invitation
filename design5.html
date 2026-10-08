@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دعوة زفاف — عبد السلام | حديقة الورد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blush:#faf0ee; --rose:#c26a6a; --rose-deep:#a94f52; --plum:#5c2e3e;
+    --gold:#b98a3c; --muted:#8a6f74;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Cairo',system-ui,sans-serif;color:var(--plum);
+    background:radial-gradient(900px 600px at 50% -5%,#fdf6f4 0%,var(--blush) 70%);
+    min-height:100vh;display:flex;justify-content:center;padding:clamp(12px,3vw,36px) 12px;
+  }
+  .card{position:relative;z-index:1;width:min(540px,100%);
+    background:linear-gradient(180deg,#fffdfd,#fdf6f4);
+    border:1px solid #ecd9d4;border-radius:26px;
+    box-shadow:0 26px 60px -28px rgba(92,46,62,.3);
+    padding:58px 42px 38px;overflow:hidden;text-align:center}
+  .floral{position:absolute;color:var(--rose);opacity:.55;pointer-events:none;width:110px;height:110px}
+  .floral.f1{top:14px;right:12px}
+  .floral.f2{top:14px;left:12px;transform:scaleX(-1)}
+  .floral.f3{bottom:12px;right:12px;transform:scaleY(-1)}
+  .floral.f4{bottom:12px;left:12px;transform:scale(-1,-1)}
+
+  /* rose petals falling */
+  .petal-field{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .pw{position:absolute;top:-24px;left:var(--x);animation:fall var(--d) linear infinite;animation-delay:var(--delay)}
+  .pw i{display:block;width:calc(12px * var(--s));height:calc(12px * var(--s));
+    background:linear-gradient(135deg,#e8b4b4,#c98181);border-radius:150% 20% 150% 20%;
+    animation:sway 3.8s ease-in-out infinite alternate;opacity:.45}
+  .pw.pink i{background:linear-gradient(135deg,#f0d9d9,#e3b7b7)}
+  @keyframes fall{from{transform:translate3d(0,-30px,0)}to{transform:translate3d(0,1250px,0)}}
+  @keyframes sway{from{transform:translateX(-14px) rotate(-35deg)}to{transform:translateX(14px) rotate(35deg)}}
+
+  .content{position:relative;z-index:1}
+  .reveal{opacity:0;transform:translateY(12px);animation:rise .85s cubic-bezier(.22,.7,.3,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.32s}
+  .d4{animation-delay:.46s}.d5{animation-delay:.6s}.d6{animation-delay:.74s}.d7{animation-delay:.88s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{animation:none;opacity:1;transform:none}
+    .petal-field{display:none}
+  }
+
+  .basmala{font-family:'Aref Ruqaa',serif;font-size:clamp(1.35rem,5vw,1.65rem);color:var(--rose-deep);margin-bottom:22px}
+  .verse{font-family:'Amiri',serif;font-size:clamp(1.08rem,4.2vw,1.26rem);line-height:2.2;color:#6d4350}
+  .verse .line{display:block}
+  .surah{margin-top:8px;font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.06em}
+
+  .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:26px auto;color:var(--rose)}
+  .divider::before,.divider::after{content:"";width:80px;height:1px;
+    background:linear-gradient(90deg,transparent,#e3c1bd)}
+  .divider::after{background:linear-gradient(90deg,#e3c1bd,transparent)}
+  .divider svg{width:15px;height:15px}
+
+  .host p{font-size:clamp(1rem,3.9vw,1.08rem);line-height:2;color:#7d5a63}
+  .host .lead{color:var(--rose)}
+  .host strong{color:var(--plum)}
+
+  .groom{font-family:'Aref Ruqaa',serif;font-weight:700;
+    font-size:clamp(3rem,13vw,4.2rem);line-height:1.45;color:var(--plum);margin:18px 0 2px}
+  .joy{font-size:.98rem;color:var(--muted)}
+
+  .events{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:30px 0 22px}
+  .event{border:1.4px solid #eccfc9;border-radius:22px;padding:22px 14px 18px;background:#fff;
+    box-shadow:0 10px 24px -18px rgba(169,79,82,.4)}
+  .event .label{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.92rem;
+    color:var(--rose-deep);margin-bottom:10px}
+  .event .label svg{width:13px;height:13px}
+  .event .day{font-weight:600;font-size:.95rem;color:var(--muted)}
+  .event .date{font-weight:700;font-size:1.32rem;color:var(--plum);line-height:1.5}
+
+  a.location{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 auto 24px;
+    text-decoration:none;cursor:pointer;border-radius:999px;padding:8px 18px;width:fit-content;
+    background:var(--rose);transition:background .2s ease}
+  a.location:hover{background:var(--rose-deep)}
+  a.location svg{width:17px;height:17px;color:#fdf3f0;flex:none}
+  a.location .loc-label{font-weight:700;font-size:.92rem;color:#fdf3f0}
+  a.location .loc-address{font-weight:700;font-size:.98rem;color:#fff}
+
+  .await{font-size:1.02rem;color:#7d5a63;font-weight:600;margin-bottom:20px}
+
+  .dua{border:1.4px solid #eccfc9;border-radius:18px;padding:18px 18px 14px;
+    background:linear-gradient(180deg,rgba(194,106,106,.1),rgba(194,106,106,.03))}
+  .dua .dua-text{display:block;font-family:'Amiri',serif;font-weight:700;
+    font-size:clamp(1.06rem,4.3vw,1.22rem);line-height:1.9;color:var(--rose-deep)}
+  .dua .dua-src{display:block;margin-top:6px;font-weight:600;font-size:.74rem;color:var(--muted)}
+
+  .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px}
+  .actions a{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;
+    color:var(--rose-deep);text-decoration:none;border:1.4px solid #e3b7b7;
+    border-radius:999px;padding:8px 16px;background:rgba(255,255,255,.7);transition:all .2s ease}
+  .actions a:hover{border-color:var(--rose);background:#fff}
+  .actions svg{width:14px;height:14px;flex:none}
+
+  .switcher{position:fixed;bottom:14px;inset-inline-start:14px;z-index:60;font-size:.8rem;font-weight:600;
+    padding:7px 14px;border-radius:999px;text-decoration:none;
+    background:rgba(92,46,62,.85);color:#fbeee9}
+
+  @media print{
+    .actions,.switcher,.petal-field{display:none}
+    body{background:#fff}
+    .card{box-shadow:none}
+    .reveal{opacity:1;transform:none;animation:none}
+  }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="petal-field" aria-hidden="true">
+    <span class="pw"      style="--x:7%; --d:15s; --delay:0s;  --s:1.1"></span>
+    <span class="pw pink" style="--x:18%;--d:12s; --delay:4s;  --s:.85"></span>
+    <span class="pw"      style="--x:30%;--d:17s; --delay:7s;  --s:1"></span>
+    <span class="pw pink" style="--x:42%;--d:13s; --delay:2s;  --s:1.25"></span>
+    <span class="pw"      style="--x:54%;--d:16s; --delay:5.5s;--s:.9"></span>
+    <span class="pw pink" style="--x:66%;--d:14s; --delay:1s;  --s:1.05"></span>
+    <span class="pw"      style="--x:78%;--d:18s; --delay:8s;  --s:1.15"></span>
+    <span class="pw pink" style="--x:90%;--d:12s; --delay:6s;  --s:.9"></span>
+  </div>
+
+  <!-- corner florals -->
+  <span class="floral f1" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M6 94 C 16 66, 30 40, 66 14"/>
+    <circle cx="40" cy="42" r="7"/><circle cx="52" cy="50" r="7"/><circle cx="44" cy="60" r="7"/>
+    <path d="M22 74 C 16 68, 13 61, 14 53"/>
+    <circle cx="18" cy="50" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="26" r="3" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="floral f2" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M6 94 C 16 66, 30 40, 66 14"/>
+    <circle cx="40" cy="42" r="7"/><circle cx="52" cy="50" r="7"/><circle cx="44" cy="60" r="7"/>
+    <path d="M22 74 C 16 68, 13 61, 14 53"/>
+    <circle cx="18" cy="50" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="26" r="3" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="floral f3" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M6 94 C 16 66, 30 40, 66 14"/>
+    <circle cx="40" cy="42" r="7"/><circle cx="52" cy="50" r="7"/><circle cx="44" cy="60" r="7"/>
+    <path d="M22 74 C 16 68, 13 61, 14 53"/>
+    <circle cx="18" cy="50" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="26" r="3" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="floral f4" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M6 94 C 16 66, 30 40, 66 14"/>
+    <circle cx="40" cy="42" r="7"/><circle cx="52" cy="50" r="7"/><circle cx="44" cy="60" r="7"/>
+    <path d="M22 74 C 16 68, 13 61, 14 53"/>
+    <circle cx="18" cy="50" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="26" r="3" fill="currentColor" stroke="none"/>
+  </svg></span>
+
+  <div class="content">
+    <h1 class="basmala reveal d1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
+    <blockquote class="verse reveal d2">
+      <span class="line">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</span>
+      <span class="line">وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</span>
+      <span class="line">إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</span>
+    </blockquote>
+    <div class="surah reveal d2">سورة الروم — الآية 21</div>
+
+    <div class="divider reveal d3" aria-hidden="true">
+      <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 0 C 9 4, 11 6, 15 7.5 C 11 9, 9 11, 7.5 15 C 6 11, 4 9, 0 7.5 C 4 6, 6 4, 7.5 0 Z"/></svg>
+    </div>
+
+    <section class="host reveal d3">
+      <p class="lead">بقلوبٍ مفعمةٍ بالحب والامتنان</p>
+      <p>يتشرف السيد <strong>خالد بن هبرة</strong> وعائلته</p>
+      <p>بدعوتكم الكريمة لمشاركتهم فرحتهم بمناسبة حفل زفاف</p>
+    </section>
+
+    <section class="reveal d4">
+      <h2 class="groom">عبد السلام</h2>
+      <p class="joy">تشريفكم يُضفي على فرحتنا أجملَ بهجة</p>
+    </section>
+
+    <section class="events reveal d5" aria-label="موعدا الحفل">
+      <article class="event">
+        <div class="label">
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 0 C 9 4, 11 6, 15 7.5 C 11 9, 9 11, 7.5 15 C 6 11, 4 9, 0 7.5 C 4 6, 6 4, 7.5 0 Z"/></svg>
+          حفل الرجال
+        </div>
+        <div class="day">الأربعاء</div>
+        <div class="date">18 نوفمبر 2026</div>
+      </article>
+      <article class="event">
+        <div class="label">
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 0 C 9 4, 11 6, 15 7.5 C 11 9, 9 11, 7.5 15 C 6 11, 4 9, 0 7.5 C 4 6, 6 4, 7.5 0 Z"/></svg>
+          حفل النساء
+        </div>
+        <div class="day">الخميس</div>
+        <div class="date">19 نوفمبر 2026</div>
+      </article>
+    </section>
+
+    <a class="location reveal d6" href="https://maps.app.goo.gl/AqAQUgtskqd637w1A" target="_blank" rel="noopener" aria-label="فتح موقع الحفل على خريطة جوجل">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21 C 12 21, 5 14.5, 5 9.5 A 7 7 0 0 1 19 9.5 C 19 14.5, 12 21, 12 21 Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <span class="loc-label">الموقع:</span>
+      <span class="loc-address">عين عبيد، عين الذهب، تيارت</span>
+    </a>
+
+    <p class="await reveal d6">بانتظار حضوركم الكريم</p>
+
+    <div class="dua reveal d7">
+      <span class="dua-text">«بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير»</span>
+      <span class="dua-src">دعاء النبي ﷺ للعروسين</span>
+    </div>
+
+    <nav class="actions reveal d7" aria-label="روابط عملية">
+      <a href="#" id="ics-men" download="hfla-rijal.ics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3 v4 M16 3 v4 M3 10 h18"/></svg>
+        حفل الرجال — للتقويم
+      </a>
+      <a href="#" id="ics-women" download="hfla-nisa.ics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3 v4 M16 3 v4 M3 10 h18"/></svg>
+        حفل النساء — للتقويم
+      </a>
+    </nav>
+  </div>
+</main>
+
+<a class="switcher" href="models.html">كل النماذج ✦</a>
+
+<script>
+  function icsFile(start, end, summary){
+    const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wedding Invitation//AR",
+      "BEGIN:VEVENT","UID:"+start+"@dawa-wedding","DTSTAMP:20261008T000000Z",
+      "DTSTART:"+start,"DTEND:"+end,"SUMMARY:"+summary,
+      "LOCATION:عين عبيد، عين الذهب، تيارت","END:VEVENT","END:VCALENDAR"];
+    return "data:text/calendar;charset=utf-8," + encodeURIComponent(lines.join("\r\n"));
+  }
+  document.getElementById("ics-men").href = icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — حفل الرجال");
+  document.getElementById("ics-women").href = icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — حفل النساء");
+</script>
+</body>
+</html>
