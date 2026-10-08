@@ -120,6 +120,23 @@
   @keyframes eq{0%,100%{height:4px}50%{height:12px}}
   .dua-voice.playing .v-bars{display:inline-flex}
   .dua-voice.playing svg.v-icon{display:none}
+
+  /* ── nasheed player ───────────────────────── */
+  .nasheed{position:fixed;bottom:14px;inset-inline-end:14px;z-index:60;display:inline-flex;
+    align-items:center;gap:8px;font:inherit;font-size:.8rem;font-weight:600;
+    padding:8px 15px;border-radius:999px;cursor:pointer;
+    background:rgba(22,20,16,.72);color:#fdf9ee;backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,.3)}
+  .nasheed svg{width:14px;height:14px;flex:none}
+  .nasheed .n-bars{display:none;gap:2.5px;align-items:flex-end;height:11px}
+  .nasheed .n-bars i{width:2.5px;background:currentColor;border-radius:2px;
+    animation:neq .9s ease-in-out infinite}
+  .nasheed .n-bars i:nth-child(2){animation-delay:.22s}
+  .nasheed .n-bars i:nth-child(3){animation-delay:.45s}
+  @keyframes neq{0%,100%{height:3px}50%{height:11px}}
+  .nasheed.playing .n-bars{display:inline-flex}
+  .nasheed.playing svg.n-icon{display:none}
+  .yt-holder{position:fixed;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -289,6 +306,63 @@
       } else { speak(); }
     });
   })();
+
+  // wedding nasheed: Maher Zain - Baraka Allahu Lakuma (vocals only)
+  (function(){
+    var VIDEO_ID = "l5Bxgo-uBAY";
+    var btn = document.getElementById("nasheed-btn");
+    var label = document.getElementById("nasheed-label");
+    var player = null, started = false;
+    function ui(p){
+      btn.classList.toggle("playing", p);
+      label.textContent = p ? "إيقاف الأناشيد" : "أناشيد الزفاف";
+    }
+    function tapStarter(ev){
+      if(started || !player) return;
+      if(ev && ev.target && ev.target.closest && ev.target.closest("#nasheed-btn")) return;
+      player.playVideo();
+    }
+    document.addEventListener("pointerdown", tapStarter);
+    document.addEventListener("keydown", tapStarter);
+    window.onYouTubeIframeAPIReady = function(){
+      player = new YT.Player("yt-player", {
+        videoId: VIDEO_ID,
+        playerVars: {autoplay: 1, playsinline: 1, controls: 0},
+        events: {
+          onReady: function(e){ e.target.setVolume(70); e.target.playVideo(); },
+          onStateChange: function(e){
+            if(e.data === YT.PlayerState.PLAYING){
+              started = true;
+              ui(true);
+              document.removeEventListener("pointerdown", tapStarter);
+              document.removeEventListener("keydown", tapStarter);
+            } else if(e.data === YT.PlayerState.ENDED){
+              e.target.seekTo(0);
+              e.target.playVideo();
+            } else {
+              ui(false);
+            }
+          },
+          onError: function(){ btn.style.display = "none"; }
+        }
+      });
+    };
+    btn.addEventListener("click", function(){
+      if(!player) return;
+      if(btn.classList.contains("playing")){ player.pauseVideo(); }
+      else { player.playVideo(); }
+    });
+    var t = document.createElement("script");
+    t.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(t);
+  })();
 </script>
+
+<button class="nasheed" id="nasheed-btn" type="button" aria-label="تشغيل نشيد الزفاف">
+  <svg class="n-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18 V5 l12 -2 v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  <span class="n-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span id="nasheed-label">أناشيد الزفاف</span>
+</button>
+<div class="yt-holder" aria-hidden="true"><div id="yt-player"></div></div>
 </body>
 </html>
