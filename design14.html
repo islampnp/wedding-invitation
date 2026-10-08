@@ -101,6 +101,22 @@
     .reveal{opacity:1;transform:none;animation:none}
     .w1,.w2,.w3{animation:none}
   }
+
+  /* ── voice dua ────────────────────────────── */
+  .dua-voice{display:flex;align-items:center;gap:9px;margin:16px auto 0;cursor:pointer;
+    font:inherit;font-size:.86rem;font-weight:700;border:1.4px solid currentColor;
+    border-radius:999px;padding:9px 18px;background:transparent;color:inherit;
+    opacity:.85;transition:opacity .2s ease}
+  .dua-voice:hover{opacity:1}
+  .dua-voice svg{width:15px;height:15px;flex:none}
+  .dua-voice .v-bars{display:none;gap:2.5px;align-items:flex-end;height:12px}
+  .dua-voice .v-bars i{width:2.5px;background:currentColor;border-radius:2px;
+    animation:eq .9s ease-in-out infinite}
+  .dua-voice .v-bars i:nth-child(2){animation-delay:.22s}
+  .dua-voice .v-bars i:nth-child(3){animation-delay:.45s}
+  @keyframes eq{0%,100%{height:4px}50%{height:12px}}
+  .dua-voice.playing .v-bars{display:inline-flex}
+  .dua-voice.playing svg.v-icon{display:none}
 </style>
 </head>
 <body>
@@ -155,7 +171,12 @@
       <span class="dua-src">دعاء النبي ﷺ للعروسين</span>
     </div>
 
-    <nav class="actions reveal d7" aria-label="روابط عملية">
+      <button class="dua-voice" id="dua-voice" type="button" aria-label="تشغيل الدعاء صوتيًا">
+    <svg class="v-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 L6 9 H3 v6 h3 l5 4 Z"/><path d="M15.5 8.5 a5 5 0 0 1 0 7"/><path d="M18.5 5.5 a9.5 9.5 0 0 1 0 13"/></svg>
+    <span class="v-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="v-label">استمع إلى الدعاء</span>
+  </button>
+  <nav class="actions reveal d7" aria-label="روابط عملية">
       <a href="#" id="ics-men" download="hfla-rijal.ics">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3 v4 M16 3 v4 M3 10 h18"/></svg>
         وليمة عشاء الرجال — للتقويم
@@ -193,6 +214,57 @@
   }
   document.getElementById("ics-men").href = icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
   document.getElementById("ics-women").href = icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — وليمة عشاء النساء");
+
+  // voice dua: play a personal recording if present, otherwise read the dua aloud
+  (function(){
+    var btn = document.getElementById("dua-voice");
+    if(!btn) return;
+    var audio = null, playing = false;
+    var TEXT = "بارك الله لكما وبارك عليكما وجمع بينكما في خير";
+    var label = btn.querySelector(".v-label");
+    function stop(){
+      playing = false;
+      if(audio){ audio.pause(); audio = null; }
+      if(window.speechSynthesis) speechSynthesis.cancel();
+      btn.classList.remove("playing");
+      label.textContent = "استمع إلى الدعاء";
+    }
+    function mark(){
+      playing = true;
+      btn.classList.add("playing");
+      label.textContent = "إيقاف الصوت";
+    }
+    function unavailable(){
+      label.textContent = "الصوت غير متاح على هذا الجهاز";
+      setTimeout(function(){ label.textContent = "استمع إلى الدعاء"; }, 2500);
+    }
+    function speak(){
+      if(!("speechSynthesis" in window)){ unavailable(); return; }
+      var u = new SpeechSynthesisUtterance(TEXT);
+      u.lang = "ar"; u.rate = .85;
+      var v = speechSynthesis.getVoices().filter(function(x){
+        return x.lang && x.lang.indexOf("ar") === 0; })[0];
+      if(v) u.voice = v;
+      u.onend = stop;
+      u.onerror = stop;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+      mark();
+    }
+    btn.addEventListener("click", function(){
+      if(playing){ stop(); return; }
+      if(window.fetch){
+        fetch("assets/dua.mp3", {method:"HEAD"}).then(function(r){
+          if(r.ok){
+            audio = new Audio("assets/dua.mp3");
+            audio.onended = stop;
+            audio.onerror = speak;
+            audio.play().then(mark).catch(speak);
+          } else { speak(); }
+        }).catch(speak);
+      } else { speak(); }
+    });
+  })();
 </script>
 </body>
 </html>
