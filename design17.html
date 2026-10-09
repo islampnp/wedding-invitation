@@ -318,21 +318,24 @@
         if(p && p.then){ p.catch(function(){}); }
       }
       function onFirst(){ tryPlay(); }
-      audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); });
+      audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); clearInterval(watchdog); });
       events.forEach(function(ev){
         document.addEventListener(ev, onFirst, {passive:true});
       });
       var p0 = audio.play();
-      if(p0 && p0.then){
-        p0.then(function(){ cleanup(); }).catch(function(){
+      if(p0 && p0.then){ p0.catch(function(){}); }
+      var watchdog = setInterval(function(){
+        if(audio.paused){
           if(overlay) overlay.classList.remove("hidden");
-        });
-      }
+        } else {
+          clearInterval(watchdog);
+          hideOverlay();
+        }
+      }, 1200);
       if(overlay){
         overlay.addEventListener("click", function(ev){
           ev.stopPropagation();
           tryPlay();
-          hideOverlay();
         });
       }
       muteBtn.addEventListener("click", function(ev){
