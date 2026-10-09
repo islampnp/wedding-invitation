@@ -220,17 +220,18 @@
         if(p && p.then){ p.catch(function(){}); }
       }
       function onFirst(){ tryPlay(); }
-      audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); clearInterval(watchdog); });
+      audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); });
       events.forEach(function(ev){
         document.addEventListener(ev, onFirst, {passive:true});
       });
       var p0 = audio.play();
       if(p0 && p0.then){ p0.catch(function(){}); }
       var watchdog = setInterval(function(){
+        var o = document.getElementById("dua-overlay");
+        if(!o){ clearInterval(watchdog); return; }
         if(audio.paused){
-          if(overlay) overlay.classList.remove("hidden");
+          o.classList.remove("hidden");
         } else {
-          clearInterval(watchdog);
           hideOverlay();
         }
       }, 1200);
@@ -242,8 +243,14 @@
       }
       muteBtn.addEventListener("click", function(ev){
         ev.stopPropagation();
-        audio.muted = !audio.muted;
-        if(!audio.muted){ tryPlay(); }
+        if(audio.paused){
+          audio.muted = false;
+          tryPlay();
+        } else if(audio.muted){
+          audio.muted = false;
+        } else {
+          audio.muted = true;
+        }
         updateBtn();
       });
       updateBtn();
