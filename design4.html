@@ -190,17 +190,27 @@
 <a class="switcher" href="models.html">كل النماذج ✦</a>
 
 <script>
+  // calendar files (works offline)
   function icsFile(start, end, summary){
-    const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wedding Invitation//AR",
-      "BEGIN:VEVENT","UID:"+start+"@dawa-wedding","DTSTAMP:20261008T000000Z",
-      "DTSTART:"+start,"DTEND:"+end,"SUMMARY:"+summary,
-      "LOCATION:عين عبيد، عين الذهب، تيارت","END:VEVENT","END:VCALENDAR"];
+    const lines = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wedding Invitation//AR",
+      "BEGIN:VEVENT",
+      "UID:" + start + "@dawa-wedding",
+      "DTSTAMP:20261008T000000Z",
+      "DTSTART:" + start,
+      "DTEND:" + end,
+      "SUMMARY:" + summary,
+      "LOCATION:عين عبيد، عين الذهب، تيارت",
+      "END:VEVENT","END:VCALENDAR"
+    ];
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(lines.join("\r\n"));
   }
-  document.getElementById("ics-men").href = icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
-  document.getElementById("ics-women").href =  // background recitation: audio only, streamed invisibly from YouTube
-  (function(){
-    v  // background dua recitation (voice only, local file)
+  document.getElementById("ics-men").href =
+    icsFile("20261118T180000","20261118T220000","حفل زواف عبد السلام — وليمة عشاء الرجال");
+  document.getElementById("ics-women").href =
+    icsFile("20261119T180000","20261119T220000","حفل زواف عبد السلام — وليمة عشاء النساء");
+
+  // background dua recitation (voice only, local file)
   (function(){
     function init(){
       var audio = document.getElementById("dua");

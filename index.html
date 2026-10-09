@@ -538,7 +538,7 @@
 </main>
 
 <script>
-  // Build the calendar files and map link locally (no network needed).
+  // calendar files (works offline)
   function icsFile(start, end, summary){
     const lines = [
       "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wedding Invitation//AR",
@@ -554,19 +554,24 @@
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(lines.join("\r\n"));
   }
   document.getElementById("ics-men").href =
-    icsFile("20261118T180000","20261118T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
+    icsFile("20261118T180000","20261118T220000","حفل زواف عبد السلام — وليمة عشاء الرجال");
   document.getElementById("ics-women").href =
-    icsFile("20261119T180000","20261119T220000","حفل زفاف عبد السلام — وليمة عشاء النساء");
+    icsFile("20261119T180000","20261119T220000","حفل زواف عبد السلام — وليمة عشاء النساء");
 
   // envelope intro: hold the card entrance until the envelope finishes
-  const intro = document.getElementById("intro");
-  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    intro.remove();
-  } else {
-    document.body.classList.add("pre");
-    setTimeout(() => docum  // background recitation: audio only, streamed invisibly from YouTube
   (function(){
-    v  // background dua recitation (voice only, local file)
+    var intro = document.getElementById("intro");
+    if(!intro) return;
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      intro.remove();
+    } else {
+      document.body.classList.add("pre");
+      setTimeout(function(){ document.body.classList.remove("pre"); }, 2900);
+      setTimeout(function(){ if(intro.parentNode) intro.remove(); }, 3600);
+    }
+  })();
+
+  // background dua recitation (voice only, local file)
   (function(){
     function init(){
       var audio = document.getElementById("dua");
