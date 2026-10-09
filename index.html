@@ -335,6 +335,16 @@
   .dua-mute.muted .ic-on{display:none}
   .dua-mute.muted .ic-off{display:block}
   @media print{.dua-overlay,.dua-mute{display:none}}
+
+  /* ── countdown ─────────────────────────────── */
+  .countdown{margin:28px auto 6px;text-align:center}
+  .cd-title{font-size:.92rem;font-weight:700;opacity:.85;margin-bottom:10px}
+  .cd-grid{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .cd-cell{display:flex;flex-direction:column;align-items:center;gap:4px;
+    min-width:64px;padding:10px 8px;border-radius:14px;
+    border:1.4px solid currentColor;opacity:.92}
+  .cd-num{font-weight:800;font-size:1.5rem;line-height:1.1;font-variant-numeric:tabular-nums}
+  .cd-lbl{font-size:.72rem;font-weight:600;opacity:.75}
 </style>
 </head>
 <body>
@@ -458,7 +468,7 @@
       <p class="lead">بقلوبٍ مفعمةٍ بالحب والامتنان</p>
       <p>يتشرف السيد <strong>خالد بن هبرة</strong> وعائلته</p>
       <p>بدعوتكم الكريمة لمشاركتهم فرحتهم</p>
-      <p>بمناسبة حفل زفاف</p>
+      <p>بِمُنَاسَبَةِ زَوَاجِ ابْنِهِ</p>
     </section>
 
     <!-- hero -->
@@ -485,7 +495,17 @@
     </section>
 
     <!-- events -->
-    <section class="events reveal d5" aria-label="موعدا الوليمة">
+      <section class="countdown reveal d5" aria-label="العد التنازلي">
+    <p class="cd-title">باقي على وليمة عشاء الرجال</p>
+    <div class="cd-grid">
+      <div class="cd-cell"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">يوم</span></div>
+      <div class="cd-cell"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">ساعة</span></div>
+      <div class="cd-cell"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">دقيقة</span></div>
+      <div class="cd-cell"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">ثانية</span></div>
+    </div>
+  </section>
+
+  <section class="events reveal d5" aria-label="موعدا الوليمة">
       <article class="event">
         <div class="label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="14" r="6"/><path d="M12 9.5 V 3"/></svg>
@@ -508,7 +528,7 @@
     <!-- location -->
     <a class="location reveal d6" href="https://maps.app.goo.gl/AqAQUgtskqd637w1A" target="_blank" rel="noopener" aria-label="فتح موقع الحفل على خريطة جوجل">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21 C 12 21, 5 14.5, 5 9.5 A 7 7 0 0 1 19 9.5 C 19 14.5, 12 21, 12 21 Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-      <span class="loc-label">الموقع:</span>
+      <span class="loc-label">الموقع على الخريطة:</span>
       <span class="loc-address">عين عبيد، عين الذهب، تيارت</span>
       <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4 h5 v5"/><path d="M20 4 l-9 9"/><path d="M20 13 v5 a2 2 0 0 1 -2 2 H6 a2 2 0 0 1 -2 -2 V6 a2 2 0 0 1 2 -2 h5"/></svg>
     </a>
@@ -639,6 +659,29 @@
         updateBtn();
       });
       updateBtn();
+    }
+    if(document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", init);
+    } else { init(); }
+  })();
+
+  // countdown to the walima (men's dinner, 18 Nov 2026, 18:00 local time)
+  (function(){
+    function init(){
+      var d = document.getElementById("cd-d"), h = document.getElementById("cd-h"),
+          m = document.getElementById("cd-m"), s = document.getElementById("cd-s");
+      if(!d || !h || !m || !s) return;
+      var target = new Date("2026-11-18T18:00:00").getTime();
+      function two(n){ return n < 10 ? "0" + n : "" + n; }
+      function tick(){
+        var sec = Math.max(0, Math.floor((target - Date.now()) / 1000));
+        d.textContent = Math.floor(sec / 86400);
+        h.textContent = two(Math.floor(sec % 86400 / 3600));
+        m.textContent = two(Math.floor(sec % 3600 / 60));
+        s.textContent = two(sec % 60);
+      }
+      tick();
+      setInterval(tick, 1000);
     }
     if(document.readyState === "loading"){
       document.addEventListener("DOMContentLoaded", init);
