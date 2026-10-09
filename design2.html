@@ -247,6 +247,12 @@
       }
       function onFirst(){ tryPlay(); }
       audio.addEventListener("playing", function(){ cleanup(); hideOverlay(); });
+      audio.addEventListener("timeupdate", function(){ audio.dataset.played = "1"; });
+      audio.addEventListener("pause", function(){
+        if(!audio.dataset.played && overlay && overlay.parentNode){
+          overlay.classList.remove("hidden");
+        }
+      });
       events.forEach(function(ev){
         document.addEventListener(ev, onFirst, {passive:true});
       });
