@@ -187,13 +187,13 @@
   <section class="events reveal d5" aria-label="موعدا الوليمة">
       <article class="event">
         <div class="label">✦ وليمة عشاء الرجال</div>
-        <div class="day">السبت</div>
-        <div class="date">21 نوفمبر 2026</div>
+        <div class="day">الجمعة</div>
+        <div class="date">20 نوفمبر 2026</div>
       </article>
       <article class="event">
         <div class="label">✦ وليمة عشاء النساء</div>
-        <div class="day">الجمعة</div>
-        <div class="date">20 نوفمبر 2026</div>
+        <div class="day">السبت</div>
+        <div class="date">21 نوفمبر 2026</div>
       </article>
     </section>
 
@@ -241,9 +241,9 @@
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(lines.join("\r\n"));
   }
   document.getElementById("ics-men").href =
-    icsFile("20261121T180000","20261121T220000","حفل زواف عبد السلام — وليمة عشاء الرجال");
+    icsFile("20261120T180000","20261120T220000","حفل زفاف عبد السلام — وليمة عشاء الرجال");
   document.getElementById("ics-women").href =
-    icsFile("20261120T180000","20261120T220000","حفل زواف عبد السلام — وليمة عشاء النساء");
+    icsFile("20261121T180000","20261121T220000","حفل زفاف عبد السلام — وليمة عشاء النساء");
 
   // background dua recitation (voice only, local file)
   (function(){
@@ -325,7 +325,7 @@
       var d = document.getElementById("cd-d"), h = document.getElementById("cd-h"),
           m = document.getElementById("cd-m"), s = document.getElementById("cd-s");
       if(!d || !h || !m || !s) return;
-      var target = new Date("2026-11-21T18:00:00").getTime();
+      var target = new Date("2026-11-20T18:00:00").getTime();
       function two(n){ return n < 10 ? "0" + n : "" + n; }
       function tick(){
         var sec = Math.max(0, Math.floor((target - Date.now()) / 1000));
