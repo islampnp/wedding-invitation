@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>دعوة زفاف — ستوري لل مشاركة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* 1080 x 1920 story, Royal Night design. No text in top/bottom 250px. */
+  :root{
+    --night1:#1e2c3d; --night2:#0d141c; --panel:rgba(212,175,94,.06);
+    --gold:#d4af5e; --gold-dim:#a8863f; --ivory:#eee8da; --muted:#a8b6c0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  body{font-family:'Cairo',sans-serif;color:var(--ivory)}
+  .story{
+    position:relative;width:1080px;height:1920px;overflow:hidden;
+    background:radial-gradient(1100px 800px at 50% -8%, var(--night1) 0%, var(--night2) 72%);
+  }
+  .frame{position:absolute;inset:44px;border:4px solid rgba(212,175,94,.5);border-radius:28px;pointer-events:none}
+  .frame::before{content:"";position:absolute;inset:12px;border:2px solid rgba(212,175,94,.25);border-radius:22px}
+  /* stars (decor only, kept out of nothing — they may cross safe zones, they are not text) */
+  .star{position:absolute;color:var(--gold)}
+  .star svg{display:block}
+  .content{
+    position:absolute;inset:0;padding:290px 84px 280px;text-align:center;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .lead{font-size:34px;color:var(--muted)}
+  .host p{font-size:42px;font-weight:600;line-height:1.9;color:#c7d0d3}
+  .host strong{color:var(--gold)}
+  .host .occasion{font-size:48px;font-weight:700;color:var(--gold);margin-top:12px}
+
+  .groom{font-family:'Aref Ruqaa',serif;font-weight:700;font-size:190px;line-height:1.4;color:#f4ecd9;
+    text-shadow:0 0 46px rgba(212,175,94,.4)}
+  .flourish{width:600px;height:80px;margin:-24px auto 0;color:var(--gold)}
+  .flourish svg{width:100%;height:100%}
+  .joy{font-size:38px;color:var(--muted)}
+
+  .events{display:flex;gap:36px;justify-content:center}
+  .event{
+    flex:1;max-width:430px;border:4px solid rgba(212,175,94,.4);border-radius:26px;
+    padding:32px 18px 26px;background:var(--panel);
+  }
+  .event .label{font-size:38px;font-weight:700;color:var(--gold);margin-bottom:10px}
+  .event .day{font-size:34px;color:var(--muted);font-weight:600}
+  .event .date{font-size:50px;font-weight:700;color:var(--ivory);line-height:1.5}
+
+  .loc{font-size:42px;font-weight:700;color:var(--ivory)}
+  .loc .pin{color:var(--gold)}
+  .await{font-size:36px;color:#c7d0d3;font-weight:600;margin-top:8px}
+
+  .dua{
+    border:4px solid rgba(212,175,94,.45);border-radius:26px;padding:26px 30px 20px;
+    background:linear-gradient(180deg,rgba(212,175,94,.14),rgba(212,175,94,.04));
+  }
+  .dua p{font-family:'Amiri',serif;font-weight:700;font-size:50px;line-height:1.8;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="story">
+
+  <div class="frame" aria-hidden="true"></div>
+
+  <span class="star" style="top:52px;right:64px;transform:scale(1.4)" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <span class="star" style="top:120px;left:110px;transform:scale(1);opacity:.7" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <span class="star" style="top:200px;right:230px;transform:scale(.7);opacity:.5" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <span class="star" style="bottom:210px;left:150px;transform:scale(.8);opacity:.6" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <span class="star" style="bottom:120px;right:100px;transform:scale(1.2)" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <span class="star" style="bottom:60px;left:420px;transform:scale(.6);opacity:.45" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+
+  <div class="content">
+
+    <div class="host">
+      <p class="lead">بقلوبٍ مفعمةٍ بالحب والامتنان</p>
+      <p>يتشرف السيد <strong>خالد بن هبرة</strong> وعائلته</p>
+      <p>بدعوتكم الكريمة لمشاركتهم فرحتهم</p>
+      <p class="occasion">بِمُنَاسَبَةِ زَوَاجِ ابْنِهِ</p>
+    </div>
+
+    <div>
+      <h1 class="groom">عبد السلام</h1>
+      <div class="flourish" aria-hidden="true">
+        <svg viewBox="0 0 180 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M4 13 C 40 13, 60 13, 78 13"/>
+          <path d="M102 13 C 120 13, 140 13, 176 13"/>
+          <path d="M90 3 L97 13 L90 23 L83 13 Z" fill="currentColor" stroke="none"/>
+          <circle cx="76" cy="13" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="104" cy="13" r="1.8" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <p class="joy">تشريفكم يُضفي على فرحتنا أجملَ بهجة</p>
+    </div>
+
+    <div class="events">
+      <div class="event">
+        <div class="label">وليمة عشاء الرجال</div>
+        <div class="day">الجمعة</div>
+        <div class="date">20 نوفمبر 2026</div>
+      </div>
+      <div class="event">
+        <div class="label">وليمة عشاء النساء</div>
+        <div class="day">السبت</div>
+        <div class="date">21 نوفمبر 2026</div>
+      </div>
+    </div>
+
+    <div>
+      <p class="loc"><span class="pin">◆</span> عين عبيد، عين الذهب، تيارت</p>
+      <p class="await">بانتظار حضوركم الكريم</p>
+    </div>
+
+    <div class="dua">
+      <p>«بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير»</p>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
