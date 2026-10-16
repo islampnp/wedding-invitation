@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>دعوة زفاف — بطاقة طباعة A6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* A6 + 3mm bleed = 111 x 154 mm. Safe text margin >= 8mm from canvas edge. */
+  :root{
+    --bg:#fbf6ea; --bg2:#f4ecda; --ink:#14453f; --gold:#a9832f; --gold-soft:#c9a259;
+    --muted:#4f6b62;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg)}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card{
+    position:relative;width:111mm;height:154mm;overflow:hidden;
+    background:
+      radial-gradient(60mm 40mm at 50% 0%, #fdfaf1 0%, transparent 70%),
+      linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+    font-family:'Cairo',sans-serif;color:var(--ink);
+  }
+  /* decorative frame (sits inside trim) */
+  .frame{position:absolute;inset:6.5mm;border:0.5mm solid var(--gold-soft);border-radius:2.5mm;pointer-events:none}
+  .frame::before{content:"";position:absolute;inset:1.2mm;border:0.22mm solid rgba(169,131,47,.55);border-radius:2mm}
+  .corner{position:absolute;width:17mm;height:17mm;color:var(--gold);pointer-events:none}
+  .corner svg{width:100%;height:100%}
+  .c-tl{top:5mm;right:5mm}.c-tr{top:5mm;left:5mm;transform:scaleX(-1)}
+  .c-bl{bottom:5mm;right:5mm;transform:scaleY(-1)}.c-br{bottom:5mm;left:5mm;transform:scale(-1,-1)}
+
+  .content{
+    position:absolute;inset:0;padding:11mm 10mm 10mm;text-align:center;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .lead{font-size:10.2px;color:var(--muted)}
+  .host p{font-size:12.5px;font-weight:600;line-height:1.85;color:var(--ink)}
+  .host .occasion{font-size:13.5px;font-weight:700;color:var(--gold);margin-top:1mm}
+
+  .name-block{margin:1mm 0}
+  .groom{font-family:'Aref Ruqaa',serif;font-weight:700;font-size:47px;line-height:1.5;color:var(--ink)}
+  .flourish{width:52mm;height:6mm;margin:-1mm auto 0;color:var(--gold)}
+  .flourish svg{width:100%;height:100%}
+  .joy{font-size:11.5px;color:var(--muted)}
+
+  .events{display:flex;gap:4mm;justify-content:center}
+  .event{
+    flex:1;max-width:44mm;border:0.35mm solid var(--gold-soft);border-radius:3mm;
+    padding:2.6mm 2mm 2.2mm;background:rgba(255,255,255,.55);
+  }
+  .event .label{font-size:11px;font-weight:700;color:var(--gold)}
+  .event .day{font-size:10.5px;color:var(--muted);font-weight:600}
+  .event .date{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.5}
+
+  .loc{font-size:12px;font-weight:700;color:var(--ink)}
+  .loc .pin{color:var(--gold)}
+  .await{font-size:11px;color:var(--muted);font-weight:600}
+
+  .dua{
+    border:0.35mm solid var(--gold-soft);border-radius:2.5mm;padding:2.2mm 3mm 1.8mm;
+    background:linear-gradient(180deg,rgba(169,131,47,.12),rgba(169,131,47,.04));
+  }
+  .dua p{font-family:'Amiri',serif;font-weight:700;font-size:13.5px;line-height:1.75;color:#7a5f1f}
+
+  @media print{
+    @page{size:111mm 154mm;margin:0}
+    html,body{width:111mm;height:154mm}
+    .card{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="frame" aria-hidden="true"></div>
+  <span class="corner c-tl" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M8 74 C 14 50, 26 26, 66 10"/>
+    <path d="M20 52 C 14 46, 11 39, 12 31"/>
+    <path d="M26 52 C 23 44, 23 37, 26 30" opacity=".75"/>
+    <path d="M33 40 C 28 33, 27 26, 30 19"/>
+    <path d="M39 39 C 37 32, 38 25, 42 19" opacity=".75"/>
+    <path d="M31 55 C 38 51, 43 45, 45 37"/>
+    <path d="M38 60 C 45 57, 51 52, 54 45" opacity=".75"/>
+    <circle cx="16" cy="27" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="34" cy="15" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="50" cy="40" r="2.2" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="corner c-tr" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M8 74 C 14 50, 26 26, 66 10"/>
+    <path d="M20 52 C 14 46, 11 39, 12 31"/>
+    <path d="M26 52 C 23 44, 23 37, 26 30" opacity=".75"/>
+    <path d="M33 40 C 28 33, 27 26, 30 19"/>
+    <path d="M39 39 C 37 32, 38 25, 42 19" opacity=".75"/>
+    <path d="M31 55 C 38 51, 43 45, 45 37"/>
+    <path d="M38 60 C 45 57, 51 52, 54 45" opacity=".75"/>
+    <circle cx="16" cy="27" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="34" cy="15" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="50" cy="40" r="2.2" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="corner c-bl" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M8 74 C 14 50, 26 26, 66 10"/>
+    <path d="M20 52 C 14 46, 11 39, 12 31"/>
+    <path d="M26 52 C 23 44, 23 37, 26 30" opacity=".75"/>
+    <path d="M33 40 C 28 33, 27 26, 30 19"/>
+    <path d="M39 39 C 37 32, 38 25, 42 19" opacity=".75"/>
+    <path d="M31 55 C 38 51, 43 45, 45 37"/>
+    <path d="M38 60 C 45 57, 51 52, 54 45" opacity=".75"/>
+    <circle cx="16" cy="27" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="34" cy="15" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="50" cy="40" r="2.2" fill="currentColor" stroke="none"/>
+  </svg></span>
+  <span class="corner c-br" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M8 74 C 14 50, 26 26, 66 10"/>
+    <path d="M20 52 C 14 46, 11 39, 12 31"/>
+    <path d="M26 52 C 23 44, 23 37, 26 30" opacity=".75"/>
+    <path d="M33 40 C 28 33, 27 26, 30 19"/>
+    <path d="M39 39 C 37 32, 38 25, 42 19" opacity=".75"/>
+    <path d="M31 55 C 38 51, 43 45, 45 37"/>
+    <path d="M38 60 C 45 57, 51 52, 54 45" opacity=".75"/>
+    <circle cx="16" cy="27" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="34" cy="15" r="2.2" fill="currentColor" stroke="none"/>
+    <circle cx="50" cy="40" r="2.2" fill="currentColor" stroke="none"/>
+  </svg></span>
+
+  <div class="content">
+
+    <div class="host">
+      <p class="lead">بقلوبٍ مفعمةٍ بالحب والامتنان</p>
+      <p>يتشرف السيد <strong>خالد بن هبرة</strong> وعائلته</p>
+      <p>بدعوتكم الكريمة لمشاركتهم فرحتهم</p>
+      <p class="occasion">بِمُنَاسَبَةِ زَوَاجِ ابْنِهِ</p>
+    </div>
+
+    <div class="name-block">
+      <h1 class="groom">عبد السلام</h1>
+      <div class="flourish" aria-hidden="true">
+        <svg viewBox="0 0 180 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M4 13 C 40 13, 60 13, 78 13"/>
+          <path d="M102 13 C 120 13, 140 13, 176 13"/>
+          <path d="M90 3 L97 13 L90 23 L83 13 Z" fill="currentColor" stroke="none"/>
+          <circle cx="76" cy="13" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="104" cy="13" r="1.8" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <p class="joy">تشريفكم يُضفي على فرحتنا أجملَ بهجة</p>
+    </div>
+
+    <div class="events">
+      <div class="event">
+        <div class="label">وليمة عشاء الرجال</div>
+        <div class="day">السبت</div>
+        <div class="date">21 نوفمبر 2026</div>
+      </div>
+      <div class="event">
+        <div class="label">وليمة عشاء النساء</div>
+        <div class="day">الجمعة</div>
+        <div class="date">20 نوفمبر 2026</div>
+      </div>
+    </div>
+
+    <div>
+      <p class="loc"><span class="pin">◆</span> عين عبيد، عين الذهب، تيارت</p>
+      <p class="await">بانتظار حضوركم الكريم</p>
+    </div>
+
+    <div class="dua">
+      <p>«بارَكَ اللهُ لكما وبارَكَ عليكما وجمعَ بينكما في خير»</p>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
